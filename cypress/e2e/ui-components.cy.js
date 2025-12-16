@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import 'cypress-iframe'
 
 beforeEach('Open application', () => {
 
@@ -159,7 +160,7 @@ it('Web tables', () => {
 
 })
 
-it.only('Datapickers', () => {
+it('Datapickers', () => {
     cy.contains('Forms').click()
     cy.contains('Datepicker').click()
 
@@ -211,20 +212,26 @@ it('drag and drop', () => {
 
 })
 
-it.only('iframes', () => {
-    cy.contains('Modal & Overlays').click()
-    cy.contains('Dialog').click()
-    cy.frameLoaded('[data-cy="esc-close-iframe"]')
+it('iframes', () => {
+  cy.contains('Modal & Overlays').click()
+  cy.contains('Dialog').click()
 
-    cy.iframe('[data-cy="esc-close-iframe"]').contains('Open Dialog with esc close').click()
-    cy.contains('Dismiss Dialog').click()
-
-    cy.enter('[data-cy="esc-close-iframe"]').then( getBody => {
-        getBody().contains('Open Dialog with esc close').click()
-        cy.contains('Dismiss Dialog').click()
-        getBody().contains('Open Dialog without esc close').click()
-        cy.contains('OK').click()
+  cy.get('[data-cy="esc-close-iframe"]')
+    .its('0.contentDocument.body')
+    .should('not.be.empty')
+    .then(cy.wrap)
+    .within(() => {
+      cy.contains('Open Dialog with esc close').click()
     })
 
+  cy.contains('Dismiss Dialog').click()
 
+  cy.get('[data-cy="esc-close-iframe"]')
+    .its('0.contentDocument.body')
+    .then(cy.wrap)
+    .within(() => {
+      cy.contains('Open Dialog without esc close').click()
+    })
+
+  cy.contains('OK').click()
 })

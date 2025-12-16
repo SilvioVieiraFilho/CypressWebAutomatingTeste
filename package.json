@@ -1,7 +1,8 @@
 {
   "name": "cypressplaygrounds",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:smoke-chrome": "npx cypress run --spec 'C:/Users/karen/Documents/Projetos/CypressWebAutomatingTeste/cypress/e2e/firstTeste.cy.js' --browser chrome"
   },
   "devDependencies": {
     "cypress": "^15.6.0",

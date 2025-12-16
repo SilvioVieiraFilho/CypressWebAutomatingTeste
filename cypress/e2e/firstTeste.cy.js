@@ -145,29 +145,29 @@ it('Assertions', () => {
 })
 
 it('Timeouts', () => {
-  cy.contains('Modal & Overlays').click()
-  cy.contains('Dialog').click()
 
-  cy.contains('Open with delay 10 seconds').click()
-  cy.get('nb-dialog-container nb-card-header', { timeout: 11000 })
-    .should('have.text', 'Friendly reminder')
+  cy.contains('Tables & Data').click()
+  cy.contains('Smart Table').click()
 
- //3. Looping though the rows
+  const ages = [20, 30, 40, 200]
 
-    const ages = [20, 30, 40, 200]
+  cy.wrap(ages).each(age => {
 
-    cy.wrap(ages).each(age => {
-        cy.get('[placeholder="Age"]').clear().type(age)
-        cy.wait(500)
-        cy.get('tbody tr').each(tableRows => {
-            if (age == 200) {
-                cy.wrap(tableRows).should('contain.text', 'No data found')
-            } else {
-                cy.wrap(tableRows).find('td').last().should('have.text', age)
-            }
-        })
+    cy.get('[placeholder="Age"]', { timeout: 10000 })
+      .clear()
+      .type(age)
+
+    cy.wait(500)
+
+    cy.get('tbody tr').each(tableRow => {
+      if (age == 200) {
+        cy.wrap(tableRow).should('contain.text', 'No data found')
+      } else {
+        cy.wrap(tableRow).find('td').last().should('have.text', age)
+      }
     })
 
-
+  })
 })
+
 
